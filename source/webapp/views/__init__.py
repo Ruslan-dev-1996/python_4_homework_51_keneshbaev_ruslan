@@ -1,7 +1,7 @@
 from .tracker_view import IndexView, TrackerView, TrackerCreateView,\
     TrackerUpdateView, TrackerDeleteView
 
-from .status_view import StatusView, StatusCreateView, status_update_view,\
+from .status_view import StatusView, StatusCreateView, StatusUpdateView,\
     StatusDeleteView
 
-from .type_view import TypeView, TypeCreateView, type_update_view, type_delete_view
+from .type_view import TypeView, TypeCreateView, TypeUpdateView, TypeDeleteView

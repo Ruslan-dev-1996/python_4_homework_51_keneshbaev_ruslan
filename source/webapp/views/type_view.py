@@ -22,41 +22,41 @@ class TypeCreateView(View):
     def post(self, request, *args, **kwargs):
         form = TypeForm(data=request.POST)
         if form.is_valid():
-            type = Type.objects.create(
-                name=form.cleaned_data['name']
-            )
+            Type.objects.create(name=form.cleaned_data['name'])
             return redirect('type_view')
         else:
             return render(request, 'type/create_type.html', context={'form': form})
 
 
 
+class TypeUpdateView(TemplateView):
 
-def type_update_view(request, pk):
-    type = get_object_or_404(Type, pk=pk)
-    if request.method == 'GET':
-        form = TypeForm(data={
-            'name': type.name
-        })
+    def get(self, request, **kwargs):
+        type = get_object_or_404(Type, pk=kwargs['pk'])
+        form = TypeForm(data={'name': type.name})
         return render(request, 'type/update_type.html', context={'form': form, 'type': type})
-    elif request.method == 'POST':
+
+    def post(self,request, **kwargs):
+        type = get_object_or_404(Type, pk=kwargs['pk'])
         form = TypeForm(data=request.POST)
         if form.is_valid():
             type.name = form.cleaned_data['name']
             type.save()
-            return redirect('type_view', pk=type.pk)
+            return redirect('type_view')
         else:
             return render(request, 'type/update_type.html', context={'form': form, 'type': type})
 
 
 
-
-
-
-def type_delete_view(request, pk):
-    type = get_object_or_404(Type, pk=pk)
-    if request.method == 'GET':
+class TypeDeleteView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        type = get_object_or_404(Type, pk=kwargs['pk'])
         return render(request, 'type/delete_type.html', context={'type': type})
-    elif request.method == 'POST':
-        type.delete()
-        return redirect('type_view')
+    def post(self, request, **kwargs):
+        type = get_object_or_404(Type, pk=kwargs['pk'])
+        try:
+            type.delete()
+            return redirect('type_view')
+        except Exception:
+            return redirect('type_view')
+
