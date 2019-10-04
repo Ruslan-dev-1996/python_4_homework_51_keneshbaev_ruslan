@@ -3,27 +3,24 @@ from webapp.forms import StatusForm
 from webapp.models import Status
 from django.views import View
 from django.views.generic import TemplateView
+from .base_views import ListView
 
 
-
-
-
-
-class StatusView(TemplateView):
+class StatusView(ListView):
     template_name = 'status/status_view.html'
+    model = Status
+    context_key = 'statuses'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['statuses'] = Status.objects.all()
-        return context
+
 
 class StatusCreateView(View):
     def get(self, request, *args, **kwargs):
         form = StatusForm()
-        return render(request, 'status/create_status.html', context={'form': form, })
+        return render(request, 'status/create_status.html', context={'form': form})
 
     def post(self, request, *args, **kwargs):
         form = StatusForm(data=request.POST)
+        print(form.is_valid())
         if form.is_valid():
             status = Status.objects.create(
                 name=form.cleaned_data['name']
@@ -31,6 +28,8 @@ class StatusCreateView(View):
             return redirect('status_view')
         else:
             return render(request, 'status/create_status.html', context={'form': form})
+
+
 
 def status_update_view(request, pk):
     status = get_object_or_404(Status, pk=pk)

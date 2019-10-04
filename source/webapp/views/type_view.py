@@ -3,21 +3,14 @@ from webapp.forms import TypeForm
 from webapp.models import Type
 from django.views import View
 from django.views.generic import TemplateView
+from .base_views import ListView
 
 
-
-
-
-
-
-
-class TypeView(TemplateView):
+class TypeView(ListView):
     template_name = 'type/type_view.html'
+    model = Type
+    context_key = 'types'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['types'] = Type.objects.all()
-        return context
 
 
 

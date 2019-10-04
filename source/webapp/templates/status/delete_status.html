@@ -7,10 +7,12 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Are you sure you want to delete "{{ status }}"?</h1>
+    <h1>Are you sure you want to delete "{{ status.pk }}"?</h1>
     <form method="POST" action="{% url 'status_delete' status.pk %}" class="text-center">
         {% csrf_token %}
         <p><input type="submit" value="Confirm"></p>
         <p><a href="{% url 'status_view' %}">Cancel</a></p>
     </form>
 {% endblock %}
+
+

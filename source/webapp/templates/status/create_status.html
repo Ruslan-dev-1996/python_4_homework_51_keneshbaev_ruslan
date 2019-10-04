@@ -8,7 +8,9 @@
 
 {% block content %}
     <h1>Create Status</h1>
-    <form method="POST" action="{% url 'tracker_add' %}">
+    <form method="POST" action="{% url 'status_add'  %}">
         {% include 'partial/tracker_form.html' with button_text="Create" %}
     </form>
 {% endblock %}
+
+{#{% include 'partial/tracker_form.html' with button_text="Create" %}#}

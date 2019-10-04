@@ -15,7 +15,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from webapp.views import IndexView, TrackerView, TrackerCreateView, TrackerUpdateView, \
+    TrackerDeleteView, StatusView, TypeView, StatusCreateView, TypeCreateView, \
+    status_update_view, type_update_view, StatusDeleteView, type_delete_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', IndexView.as_view(), name='index'),
+    path('tracker/<int:pk>/', TrackerView.as_view(), name='tracker_view'),
+    path('tracker/add/', TrackerCreateView.as_view(), name='tracker_add'),
+    path('tracker/<int:pk>/update/', TrackerUpdateView.as_view(), name='tracker_update'),
+    path('tracker/<int:pk>/delete/', TrackerDeleteView.as_view(), name='tracker_delete'),
+    path('status/view/', StatusView.as_view(), name='status_view'),
+    path('type/view/', TypeView.as_view(), name='type_view'),
+    path('status/add/', StatusCreateView.as_view(), name='status_add'),
+    path('type/add', TypeCreateView.as_view(), name='type_add'),
+    path('status/<int:pk>/update/',status_update_view, name='status_update'),
+    path('type/<int:pk>/update/', type_update_view, name='type_update'),
+    path('status/<int:pk>/delete/', StatusDeleteView.as_view, name='status_delete'),
+    path('type/<int:pk>/delete/',type_delete_view, name='type_delete'),
+
 ]

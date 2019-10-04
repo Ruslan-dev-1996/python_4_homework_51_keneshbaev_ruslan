@@ -2,26 +2,32 @@ from django.shortcuts import render, get_object_or_404, redirect
 from webapp.forms import TrackerForm
 from webapp.models import Tracker
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
+
+from webapp.views.base_detailed import DetailedView
 
 
-class IndexView(TemplateView):
+class IndexView(ListView):
     template_name = 'tracker/index.html'
+    model = Tracker
+    context_object_name = 'trackers'
+    ordering = ['-created_at']
+    paginate_by = 2
+    paginate_orphans = 1
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['trackers'] = Tracker.objects.all()
-        return context
 
 
-class TrackerView(TemplateView):
-    template_name = 'tracker/deteailed.html'
 
-    def get_context_data(self, **kwargs):
-        pk = kwargs.get('pk')
-        context = super().get_context_data(**kwargs)
-        context['tracker'] = get_object_or_404(Tracker, pk=pk)
-        return context
+class TrackerView(DetailedView):
+    template_name = 'tracker/detailed.html'
+    model = Tracker
+    context_key = 'tracker'
+
+    # def get_context_data(self, **kwargs):
+    #     pk = kwargs.get('pk')
+    #     context = super().get_context_data(**kwargs)
+    #     context['tracker'] = get_object_or_404(Tracker, pk=pk)
+    #     return context
 
 
 class TrackerCreateView(View):
